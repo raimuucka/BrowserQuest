@@ -2,9 +2,9 @@
 
 # Script to generate an optimized client build of BrowserQuest
 
-BUILDDIR="../client-build"
-PROJECTDIR="../client/js"
 CURDIR=$(pwd)
+BUILDDIR="$CURDIR/../client-build"
+PROJECTDIR="$CURDIR/../client/js"
 
 
 echo "Deleting previous build directory"
@@ -12,7 +12,7 @@ rm -rf $BUILDDIR
 
 echo "Building client with RequireJS"
 cd $PROJECTDIR
-node ../../bin/r.js -o build.js
+node $CURDIR/r.js -o build.js
 cd $CURDIR
 
 echo "Removing unnecessary js files from the build directory"

@@ -15,6 +15,8 @@
 /*global readFile: true, process: false, Packages: false, print: false,
 console: false, java: false, module: false */
 
+const fs = require('fs');
+
 var requirejs, require, define;
 (function (console, args, readFileFunc) {
 
@@ -66,7 +68,7 @@ var requirejs, require, define;
 
         //Get the fs module via Node's require before it
         //gets replaced. Used in require/node.js
-        fs = require('fs');
+        //fs = require('fs');
         vm = require('vm');
         path = require('path');
         nodeRequire = require;
@@ -2218,7 +2220,7 @@ var requirejs, require, define;
         context.loaded[moduleName] = false;
         context.scriptCount += 1;
 
-        if (path.existsSync(url)) {
+        if (fs.existsSync(url)) {
             contents = fs.readFileSync(url, 'utf8');
 
             contents = req.makeNodeWrapper(contents);

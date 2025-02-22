@@ -1,3 +1,6 @@
+const log = require('log');
+//let log;
+
 
 var fs = require('fs'),
     Metrics = require('./metrics');
@@ -6,7 +9,6 @@ var fs = require('fs'),
 function main(config) {
     var ws = require("./ws"),
         WorldServer = require("./worldserver"),
-        Log = require('log'),
         _ = require('underscore'),
         server = new ws.MultiVersionWebsocketServer(config.port),
         metrics = config.metrics_enabled ? new Metrics(config) : null;
@@ -25,16 +27,18 @@ function main(config) {
             }
         }, 1000);
     
-    switch(config.debug_level) {
-        case "error":
-            log = new Log(Log.ERROR); break;
-        case "debug":
-            log = new Log(Log.DEBUG); break;
-        case "info":
-            log = new Log(Log.INFO); break;
-    };
-    
-    log.info("Starting BrowserQuest game server...");
+    //switch(config.debug_level) {
+    //    case "error":
+    //        log = new Log(Log.ERROR); break;
+    //    case "debug":
+    //        log = new Log(Log.DEBUG); break;
+    //    case "info":
+    //        log = new Log(Log.INFO); break;
+    //};
+
+    /*log.info("Starting BrowserQuest game server...");*/
+
+    log.info("Starting BrowserQuest game server...")
     
     server.onConnect(function(connection) {
         var world, // the one in which the player will be spawned

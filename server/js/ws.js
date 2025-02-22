@@ -1,8 +1,11 @@
 
+const WebSocket = require('ws');
+const log = require('log');
+
 var cls = require("./lib/class"),
     url = require('url'),
-    wsserver = require("websocket-server"),
-    miksagoConnection = require('websocket-server/lib/ws/connection'),
+    wsserver = new WebSocket.Server({ noServer: true });
+    //miksagoConnection = require('websocket-server/lib/ws/connection'),
     worlizeRequest = require('websocket').request,
     http = require('http'),
     Utils = require('./utils'),
@@ -135,7 +138,7 @@ WS.MultiVersionWebsocketServer = Server.extend({
             log.info("Server is listening on port "+port);
         });
         
-        this._miksagoServer = wsserver.createServer();
+        this._miksagoServer = new WebSocket.Server({ noServer: true });
         this._miksagoServer.server = this._httpServer;
         this._miksagoServer.addListener('connection', function(connection) {
             // Add remoteAddress property
@@ -174,7 +177,12 @@ WS.MultiVersionWebsocketServer = Server.extend({
                     (req.headers.upgrade && req.headers.connection) &&
                     req.headers.upgrade.toLowerCase() === 'websocket' &&
                     req.headers.connection.toLowerCase() === 'upgrade') {
-                    new miksagoConnection(self._miksagoServer.manager, self._miksagoServer.options, req, socket, head);
+                        //new miksagoConnection(self._miksagoServer.manager, self._miksagoServer.options, req, socket, head);
+                        wss.handleUpgrade(req, socket, head, function done(ws) {
+                            // Here, `ws` is the WebSocket connection
+                            self._miksagoServer.manager(ws);  // You can pass `ws` to your server manager
+                            self._miksagoServer.options(ws);  // Any additional options or logic
+                        });
                 }
             }
         });
