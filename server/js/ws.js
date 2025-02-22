@@ -129,6 +129,12 @@ WS.MultiVersionWebsocketServer = Server.extend({
                         response.write(self.status_callback());
                         break;
                     }
+                case '/':
+                    if (self.status_callback) {
+                        response.writeHead(200);
+                        response.write("Server is running");
+                        break;
+                    }
                 default:
                     response.writeHead(404);
             }
